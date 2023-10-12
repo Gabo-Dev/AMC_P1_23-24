@@ -19,6 +19,7 @@ public class Menu_Practica extends javax.swing.JFrame {
     public Menu_Practica() {
         initComponents();
         setTitle("Menu Principal");
+        //yo
     }
 
     /**
