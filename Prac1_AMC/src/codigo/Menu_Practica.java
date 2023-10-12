@@ -6,6 +6,8 @@
 package codigo;
 
 import java.awt.*;
+import java.util.Random;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -22,7 +24,9 @@ public class Menu_Practica extends javax.swing.JFrame {
     public Menu_Practica() {
         initComponents();
         setTitle("Menu Principal");
-        
+        //this.setMaximumSize(JFrame.MAXIMIZED_BOTH);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        graph.setVisible(false);
         
     }
 
@@ -36,12 +40,14 @@ public class Menu_Practica extends javax.swing.JFrame {
     private void initComponents() {
 
         graph = new javax.swing.JPanel();
-        parametros = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        accion_Datos = new javax.swing.JComboBox<>();
-        generaBtn = new javax.swing.JButton();
-        Algoritmos = new javax.swing.JComboBox<>();
-        datosEti = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenu7 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -53,134 +59,90 @@ public class Menu_Practica extends javax.swing.JFrame {
         graph.setLayout(graphLayout);
         graphLayout.setHorizontalGroup(
             graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 258, Short.MAX_VALUE)
+            .addGap(0, 693, Short.MAX_VALUE)
         );
         graphLayout.setVerticalGroup(
             graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 376, Short.MAX_VALUE)
+            .addGap(0, 27, Short.MAX_VALUE)
         );
 
-        parametros.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(153, 153, 255), null));
-
-        jLabel1.setText("Algoritmo");
-
-        accion_Datos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar..", "Cargar", "Generar" }));
-        accion_Datos.addActionListener(new java.awt.event.ActionListener() {
+        jMenu1.setText("Datos");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                accion_DatosActionPerformed(evt);
+                jMenu1ActionPerformed(evt);
             }
         });
 
-        generaBtn.setText("Generar");
-        generaBtn.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setText("Abrir");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                generaBtnActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
+        jMenu1.add(jMenuItem1);
 
-        Algoritmos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Exhaustivo ", "D&V ", "Mejora" }));
-        Algoritmos.addActionListener(new java.awt.event.ActionListener() {
+        jMenu4.setText("Generar");
+        jMenu4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AlgoritmosActionPerformed(evt);
+                jMenu4ActionPerformed(evt);
             }
         });
+        jMenu1.add(jMenu4);
 
-        datosEti.setText("Datos");
+        jMenuBar1.add(jMenu1);
 
-        javax.swing.GroupLayout parametrosLayout = new javax.swing.GroupLayout(parametros);
-        parametros.setLayout(parametrosLayout);
-        parametrosLayout.setHorizontalGroup(
-            parametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(parametrosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(parametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(parametrosLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                        .addGroup(parametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(datosEti, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(parametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Algoritmos, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(accion_Datos, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, parametrosLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(generaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        parametrosLayout.setVerticalGroup(
-            parametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(parametrosLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(parametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Algoritmos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(23, 23, 23)
-                .addGroup(parametrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(datosEti)
-                    .addComponent(accion_Datos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addComponent(generaBtn)
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
+        jMenu2.setText("Estrategias");
+
+        jMenu5.setText("Comprobar");
+        jMenu2.add(jMenu5);
+
+        jMenu6.setText("Comparar");
+        jMenu2.add(jMenu6);
+
+        jMenu7.setText("Comparar 2 Estrategias");
+        jMenu2.add(jMenu7);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addContainerGap()
                 .addComponent(graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(parametros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(405, 405, 405)
                 .addComponent(graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(48, 48, 48))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(118, 118, 118)
-                .addComponent(parametros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void accion_DatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accion_DatosActionPerformed
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        //int returnVal = fc.showOpenDialog(aComponent);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    }//GEN-LAST:event_accion_DatosActionPerformed
-
-    private void AlgoritmosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlgoritmosActionPerformed
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_AlgoritmosActionPerformed
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    }//GEN-LAST:event_jMenu1ActionPerformed
 
-    private void generaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generaBtnActionPerformed
+    private void jMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu4ActionPerformed
         // TODO add your handling code here:
-        //  Genera puntos en función de un algoritmo y una acción para tratar los datos
-        if (accion_Datos.getSelectedIndex() == 0 && Algoritmos.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(null, "Compruebe que ha seleecionado las correspondientes opciones.");
-        } else {
-//            Punto p = new Punto(5, 5, 1);
-//            Graphics g = graph.getGraphics();
-//            p.dibujaPunto(g);
-              if (accion_Datos.getSelectedIndex()== 2) {
-                  int numPuntos = 0;
-                  do {                      
-                      try {
-                          numPuntos = Integer.parseInt(JOptionPane.showInputDialog(null,"Introduzca la cantidad de puntos a generar:"));
-                      } catch (HeadlessException | NumberFormatException e) {
-                          JOptionPane.showMessageDialog(null, "Formato no valido");
-                      }
-                  } while (numPuntos <1);
-                  
-            }
-        }
-    }//GEN-LAST:event_generaBtnActionPerformed
+    }//GEN-LAST:event_jMenu4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -218,12 +180,14 @@ public class Menu_Practica extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> Algoritmos;
-    private javax.swing.JComboBox<String> accion_Datos;
-    private javax.swing.JLabel datosEti;
-    private javax.swing.JButton generaBtn;
     private javax.swing.JPanel graph;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel parametros;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
 }
