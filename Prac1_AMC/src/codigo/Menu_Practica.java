@@ -6,11 +6,13 @@
 package codigo;
 
 import java.awt.*;
+import java.io.File;
 import java.util.Random;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -43,7 +45,7 @@ public class Menu_Practica extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
@@ -67,11 +69,6 @@ public class Menu_Practica extends javax.swing.JFrame {
         );
 
         jMenu1.setText("Datos");
-        jMenu1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu1ActionPerformed(evt);
-            }
-        });
 
         jMenuItem1.setText("Abrir");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -81,13 +78,8 @@ public class Menu_Practica extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenu4.setText("Generar");
-        jMenu4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu4ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenu4);
+        jMenuItem2.setText("Generar");
+        jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
 
@@ -129,20 +121,21 @@ public class Menu_Practica extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         
-        JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        //JFileChooser fc = new JFileChooser();
+        //fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         //int returnVal = fc.showOpenDialog(aComponent);
+        
+        String s="";
+        JFileChooser filChoose= new JFileChooser(System.getProperty("user.dir"));//Cogemos directorios desde /home
+        filChoose.setFileSelectionMode(JFileChooser.FILES_ONLY);//Solo acepta ficheros
+        filChoose.setFileFilter(new FileNameExtensionFilter("txt", "txt"));//Coje ficheros cuya extension sea esas
+        JFrame f=new JFrame();//Necesario, para poder hacer dispose()
+        if(filChoose.showOpenDialog(f)==JFileChooser.APPROVE_OPTION){
+            File file= filChoose.getSelectedFile();//Cogemos el fichero seleccionado
+            s=file.toString();
+        }
+        System.out.println("Nombre fichero: "+s);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-        // TODO add your handling code here:
-        JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-    }//GEN-LAST:event_jMenu1ActionPerformed
-
-    private void jMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenu4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,11 +176,11 @@ public class Menu_Practica extends javax.swing.JFrame {
     private javax.swing.JPanel graph;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     // End of variables declaration//GEN-END:variables
 }
