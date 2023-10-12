@@ -183,12 +183,4 @@ public class Menu_Practica extends javax.swing.JFrame {
     private javax.swing.JPanel graph;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
-
- protected void paintComponent(Graphics g) {
-     super.paintComponents(g);
-     g.setColor(Color.red);
-     g.drawOval(20, 20, 20, 20);
-     
- }
- 
 }
