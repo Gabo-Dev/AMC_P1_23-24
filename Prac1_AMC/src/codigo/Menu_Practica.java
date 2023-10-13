@@ -8,11 +8,17 @@ package codigo;
 import java.awt.*;
 import java.io.File;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import jdk.nashorn.internal.runtime.regexp.joni.constants.internal.OPCode;
 
 /**
  *
@@ -26,10 +32,8 @@ public class Menu_Practica extends javax.swing.JFrame {
     public Menu_Practica() {
         initComponents();
         setTitle("Menu Principal");
-        //this.setMaximumSize(JFrame.MAXIMIZED_BOTH);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        graph.setVisible(false);
-        
+        //graph.setVisible(false);
     }
 
     /**
@@ -43,9 +47,7 @@ public class Menu_Practica extends javax.swing.JFrame {
 
         graph = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        SubMenu = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
@@ -65,23 +67,16 @@ public class Menu_Practica extends javax.swing.JFrame {
         );
         graphLayout.setVerticalGroup(
             graphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 27, Short.MAX_VALUE)
+            .addGap(0, 356, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("Datos");
-
-        jMenuItem1.setText("Abrir");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+        SubMenu.setText("Datos");
+        SubMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SubMenuMouseClicked(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setText("Generar");
-        jMenu1.add(jMenuItem2);
-
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(SubMenu);
 
         jMenu2.setText("Estrategias");
 
@@ -110,7 +105,7 @@ public class Menu_Practica extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(405, 405, 405)
+                .addContainerGap()
                 .addComponent(graph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -118,24 +113,16 @@ public class Menu_Practica extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void SubMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SubMenuMouseClicked
         // TODO add your handling code here:
+        Opciones op = new Opciones();
+        op.setVisible(true);
+
+        op.getAccion();
+        op.getTipoAlgoritmo();
         
-        //JFileChooser fc = new JFileChooser();
-        //fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        //int returnVal = fc.showOpenDialog(aComponent);
-        
-        String s="";
-        JFileChooser filChoose= new JFileChooser(System.getProperty("user.dir"));//Cogemos directorios desde /home
-        filChoose.setFileSelectionMode(JFileChooser.FILES_ONLY);//Solo acepta ficheros
-        filChoose.setFileFilter(new FileNameExtensionFilter("txt", "txt"));//Coje ficheros cuya extension sea esas
-        JFrame f=new JFrame();//Necesario, para poder hacer dispose()
-        if(filChoose.showOpenDialog(f)==JFileChooser.APPROVE_OPTION){
-            File file= filChoose.getSelectedFile();//Cogemos el fichero seleccionado
-            s=file.toString();
-        }
-        System.out.println("Nombre fichero: "+s);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    }//GEN-LAST:event_SubMenuMouseClicked
 
     /**
      * @param args the command line arguments
@@ -173,14 +160,12 @@ public class Menu_Practica extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu SubMenu;
     private javax.swing.JPanel graph;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     // End of variables declaration//GEN-END:variables
 }
