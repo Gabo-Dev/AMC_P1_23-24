@@ -5,20 +5,16 @@
  */
 package codigo;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import jdk.nashorn.internal.runtime.regexp.joni.constants.internal.OPCode;
+
 
 /**
  *
@@ -26,6 +22,9 @@ import jdk.nashorn.internal.runtime.regexp.joni.constants.internal.OPCode;
  */
 public class Menu_Practica extends javax.swing.JFrame {
 
+    private String nameFich;
+    private ArrayList<Punto> listaPuntos;
+    private int valorMaximoX, valorMaximoY;
     /**
      * Creates new form Menu_Practica
      */
@@ -33,7 +32,15 @@ public class Menu_Practica extends javax.swing.JFrame {
         initComponents();
         setTitle("Menu Principal");
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        
         //graph.setVisible(false);
+        //opciones de abrir o generar datos
+        this.listaPuntos = new ArrayList<>();
+        this.save.setVisible(false);
+        
+        //da fallo, mejor comentarlo
+        /*this.mostrarOpciones();*/
     }
 
     /**
@@ -48,10 +55,13 @@ public class Menu_Practica extends javax.swing.JFrame {
         graph = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         SubMenu = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        save = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
-        jMenu7 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -76,18 +86,38 @@ public class Menu_Practica extends javax.swing.JFrame {
                 SubMenuMouseClicked(evt);
             }
         });
+
+        jMenuItem4.setText("Abrir");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        SubMenu.add(jMenuItem4);
+
+        jMenuItem5.setText("Generar");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        SubMenu.add(jMenuItem5);
+
+        save.setText("Guardar datos");
+        SubMenu.add(save);
+
         jMenuBar1.add(SubMenu);
 
         jMenu2.setText("Estrategias");
 
-        jMenu5.setText("Comprobar");
-        jMenu2.add(jMenu5);
+        jMenuItem1.setText("Comprobar");
+        jMenu2.add(jMenuItem1);
 
-        jMenu6.setText("Comparar");
-        jMenu2.add(jMenu6);
+        jMenuItem2.setText("Comparar");
+        jMenu2.add(jMenuItem2);
 
-        jMenu7.setText("Comparar 2 Estrategias");
-        jMenu2.add(jMenu7);
+        jMenuItem3.setText("Comparar dos estrategias");
+        jMenu2.add(jMenuItem3);
 
         jMenuBar1.add(jMenu2);
 
@@ -115,15 +145,119 @@ public class Menu_Practica extends javax.swing.JFrame {
 
     private void SubMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SubMenuMouseClicked
         // TODO add your handling code here:
-        Opciones op = new Opciones();
+        /*Opciones op = new Opciones();
         op.setVisible(true);
 
         op.getAccion();
         op.getTipoAlgoritmo();
-        
+        */
 
     }//GEN-LAST:event_SubMenuMouseClicked
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        this.AbrirDirectorio();
+        this.save.setVisible(false);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        //int totalPuntos=0;
+        this.generarPuntos();
+        this.save.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    
+   
+    //mostrar menu para elegir opcion
+    public void mostrarOpciones(){
+        //String nameFich="";
+        int numPuntos=0;
+        int seleccion = JOptionPane.showOptionDialog( null,"Seleccione una opcion",
+        "Punto más cercano a otro",JOptionPane.YES_NO_CANCEL_OPTION,
+         JOptionPane.QUESTION_MESSAGE,null,// null para icono por defecto.
+        new Object[] { "Abrir datos", "Generar datos"},"Abrir datos");
+
+        if(seleccion == 0){//abrir datos
+            nameFich = this.AbrirDirectorio();
+            this.AbrirFichero(nameFich);
+        }else if(seleccion == 1){//generar datos
+            this.generarPuntos();
+        }
+        
+        /*if (seleccion != -1){
+                 System.out.println("seleccion: " + seleccion);
+        }*/
+    }
+     //Metodo abrir directorio
+    String AbrirDirectorio(){
+        String s="";
+        JFileChooser filChoose= new JFileChooser(System.getProperty("user.dir"));//Cogemos directorios desde /home
+        filChoose.setFileSelectionMode(JFileChooser.FILES_ONLY);//Solo acepta ficheros
+        filChoose.setFileFilter(new FileNameExtensionFilter("txt", "txt"));//Coje ficheros cuya extension sea esas
+        JFrame f=new JFrame();//Necesario, para poder hacer dispose()
+        if(filChoose.showOpenDialog(f)==JFileChooser.APPROVE_OPTION){
+            File file= filChoose.getSelectedFile();//Cogemos el fichero seleccionado
+            s=file.getName();
+        }
+        System.out.println("Nombre fichero: "+s);
+        return s;
+    }
+    //abrir fichero para cargar sus datos
+    public void AbrirFichero(String namefich){
+        //completar metodo
+        
+        //mostrar en el panel
+        this.mostrarPuntos();
+    }
+    //generar puntos
+    public void generarPuntos(){
+        this.valorMaximoX = graph.getWidth();
+        this.valorMaximoY = graph.getHeight();
+        JTextField name = new JTextField();
+        JTextField puntos = new JTextField();
+        Object[] message = {
+            "Nombre fichero: ", name,
+            "Numero puntos: ", puntos
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Generar puntos", JOptionPane.OK_CANCEL_OPTION);
+        this.nameFich = name.getText();
+        this.generarPuntos(Integer.parseInt(puntos.getText()));
+        
+        
+        //this.mostrarPuntos();
+    }
+    //generar puntos
+    public void generarPuntos(int numPuntos){
+        Graphics g = graph.getGraphics();
+        System.out.println("X: "+graph.getWidth()+" Y: "+graph.getHeight());
+        Punto p;
+        //p.dibujaPunto(g);
+        int x, y;
+        Random rnd = new Random();
+        //System.out.println("Nombrefich: "+this.nameFich+" Puntos: "+numPuntos);
+        for(int i=0; i<numPuntos; i++){
+            x = rnd.nextInt(this.valorMaximoX);
+            y = rnd.nextInt(this.valorMaximoY);
+            p = new Punto(x,y,i);
+            p.dibujaPunto(g);
+            listaPuntos.add(p);
+        }
+        //p = new Punto(0,0,111);
+        //p.dibujaPunto(g);
+        ////p = new Punto(1354,670,112);
+        ////p.dibujaPunto(g);
+        //p = new Punto(1349,665,112);
+        //p.dibujaPunto(g);
+    }
+    //mostrar puntos
+    public void mostrarPuntos(){
+        //Graphics g = graph.getGraphics();
+        System.out.println("puntos: "+this.listaPuntos.size());
+        for (Punto p : listaPuntos) {
+            //p.dibujaPunto(g);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -154,7 +288,17 @@ public class Menu_Practica extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                
                 new Menu_Practica().setVisible(true);
+                
+                /*
+                Object opcion = JOptionPane.showInputDialog(null,"Abrir fichero o generar uno?",
+                "Punto más cercano a otro", JOptionPane.QUESTION_MESSAGE, null,
+                new Object[] { "Seleccione","Abrir dato", "Generar datos"},"Seleccione");
+                    int numero=Integer.parseInt((String) opcion);
+                System.out.println(opcion.toString());
+
+                System.out.println("opcion: "+opcion.hashCode());*/
             }
         });
     }
@@ -163,9 +307,12 @@ public class Menu_Practica extends javax.swing.JFrame {
     private javax.swing.JMenu SubMenu;
     private javax.swing.JPanel graph;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem save;
     // End of variables declaration//GEN-END:variables
 }
