@@ -5,15 +5,12 @@
  */
 package codigo;
 
-import java.awt.Graphics;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -292,6 +289,6 @@ public class Menu_Practica extends javax.swing.JFrame {
             File file= filChoose.getSelectedFile();//Cogemos el fichero seleccionado
             s=file.getName();
         }
-        System.out.println("Nombre fichero: "+s);
+        
     }
 }
