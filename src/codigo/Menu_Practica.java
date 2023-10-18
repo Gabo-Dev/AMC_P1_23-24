@@ -6,6 +6,7 @@
 package codigo;
 
 import java.awt.Graphics;
+import java.awt.HeadlessException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 
 /**
  *
@@ -25,20 +25,16 @@ public class Menu_Practica extends javax.swing.JFrame {
     private String nameFich;
     private ArrayList<Punto> listaPuntos;
     private int valorMaximoX, valorMaximoY;
+
     /**
      * Creates new form Menu_Practica
      */
     public Menu_Practica() {
         initComponents();
         setTitle("Menu Principal");
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
-        //graph.setVisible(false);
-        //opciones de abrir o generar datos
         this.listaPuntos = new ArrayList<>();
-        
-        //da fallo, mejor comentarlo
-        /*this.mostrarOpciones();*/
+
     }
 
     /**
@@ -55,9 +51,10 @@ public class Menu_Practica extends javax.swing.JFrame {
         paramContent = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        algoritmoCB = new javax.swing.JComboBox<>();
         opcionDatosCB = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        iniciarBtn = new javax.swing.JButton();
         compararContent = new javax.swing.JPanel();
         comprobarContent = new javax.swing.JPanel();
         graphContent = new javax.swing.JPanel();
@@ -65,7 +62,6 @@ public class Menu_Practica extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(1500, 750));
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 255, 255)));
 
@@ -76,11 +72,18 @@ public class Menu_Practica extends javax.swing.JFrame {
 
         jLabel2.setText("Algoritmo");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Exhaustivo", "Exhaustivo Poda", "D&V", "D&V Mejora", " " }));
+        algoritmoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Exhaustivo", "Exhaustivo Poda", "D&V", "D&V Mejora" }));
 
-        opcionDatosCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Cargar Fichero", "Generar Puntos", " " }));
+        opcionDatosCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Cargar Fichero", "Generar Puntos" }));
 
         jLabel3.setText("CONFIGURACIÓN");
+
+        iniciarBtn.setText("Iniciar");
+        iniciarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iniciarBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout paramContentLayout = new javax.swing.GroupLayout(paramContent);
         paramContent.setLayout(paramContentLayout);
@@ -94,14 +97,17 @@ public class Menu_Practica extends javax.swing.JFrame {
                             .addGroup(paramContentLayout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(132, 132, 132)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(algoritmoCB, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(paramContentLayout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(149, 149, 149)
                                 .addComponent(opcionDatosCB, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(paramContentLayout.createSequentialGroup()
                         .addGap(174, 174, 174)
-                        .addComponent(jLabel3)))
+                        .addComponent(jLabel3))
+                    .addGroup(paramContentLayout.createSequentialGroup()
+                        .addGap(159, 159, 159)
+                        .addComponent(iniciarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         paramContentLayout.setVerticalGroup(
@@ -116,8 +122,10 @@ public class Menu_Practica extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(paramContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(62, Short.MAX_VALUE))
+                    .addComponent(algoritmoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(iniciarBtn)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout homeContentLayout = new javax.swing.GroupLayout(homeContent);
@@ -198,98 +206,28 @@ public class Menu_Practica extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-//   
-//    //mostrar menu para elegir opcion
-//    public void mostrarOpciones(){
-//        //String nameFich="";
-//        int numPuntos=0;
-//        int seleccion = JOptionPane.showOptionDialog( null,"Seleccione una opcion",
-//        "Punto más cercano a otro",JOptionPane.YES_NO_CANCEL_OPTION,
-//         JOptionPane.QUESTION_MESSAGE,null,// null para icono por defecto.
-//        new Object[] { "Abrir datos", "Generar datos"},"Abrir datos");
-//
-//        if(seleccion == 0){//abrir datos
-//            nameFich = this.AbrirDirectorio();
-//            this.AbrirFichero(nameFich);
-//        }else if(seleccion == 1){//generar datos
-//            this.generarPuntos();
-//        }
-//        
-//        /*if (seleccion != -1){
-//                 System.out.println("seleccion: " + seleccion);
-//        }*/
-//    }
-//     //Metodo abrir directorio
-//    String AbrirDirectorio(){
-//        String s="";
-//        JFileChooser filChoose= new JFileChooser(System.getProperty("user.dir"));//Cogemos directorios desde /home
-//        filChoose.setFileSelectionMode(JFileChooser.FILES_ONLY);//Solo acepta ficheros
-//        filChoose.setFileFilter(new FileNameExtensionFilter("txt", "txt"));//Coje ficheros cuya extension sea esas
-//        JFrame f=new JFrame();//Necesario, para poder hacer dispose()
-//        if(filChoose.showOpenDialog(f)==JFileChooser.APPROVE_OPTION){
-//            File file= filChoose.getSelectedFile();//Cogemos el fichero seleccionado
-//            s=file.getName();
-//        }
-//        System.out.println("Nombre fichero: "+s);
-//        return s;
-//    }
-//    //abrir fichero para cargar sus datos
-//    public void AbrirFichero(String namefich){
-//        //completar metodo
-//        
-//        //mostrar en el panel
-//        this.mostrarPuntos();
-//    }
-    //generar puntos
-//    public void generarPuntos(){
-//        this.valorMaximoX = graph.getWidth();
-//        this.valorMaximoY = graph.getHeight();
-//        JTextField name = new JTextField();
-//        JTextField puntos = new JTextField();
-//        Object[] message = {
-//            "Nombre fichero: ", name,
-//            "Numero puntos: ", puntos
-//        };
-//
-//        int option = JOptionPane.showConfirmDialog(null, message, "Generar puntos", JOptionPane.OK_CANCEL_OPTION);
-//        this.nameFich = name.getText();
-//        this.generarPuntos(Integer.parseInt(puntos.getText()));
-//        
-//        
-//        //this.mostrarPuntos();
-//    }
-//    //generar puntos
-//    public void generarPuntos(int numPuntos){
-//        Graphics g = graph.getGraphics();
-//        System.out.println("X: "+graph.getWidth()+" Y: "+graph.getHeight());
-//        Punto p;
-//        //p.dibujaPunto(g);
-//        int x, y;
-//        Random rnd = new Random();
-//        //System.out.println("Nombrefich: "+this.nameFich+" Puntos: "+numPuntos);
-//        for(int i=0; i<numPuntos; i++){
-//            x = rnd.nextInt(this.valorMaximoX);
-//            y = rnd.nextInt(this.valorMaximoY);
-//            p = new Punto(x,y,i);
-//            p.dibujaPunto(g);
-//            listaPuntos.add(p);
-//        }
-        //p = new Punto(0,0,111);
-        //p.dibujaPunto(g);
-        ////p = new Punto(1354,670,112);
-        ////p.dibujaPunto(g);
-        //p = new Punto(1349,665,112);
-        //p.dibujaPunto(g);
-   // }
-    //mostrar puntos
-    public void mostrarPuntos(){
-        //Graphics g = graph.getGraphics();
-        System.out.println("puntos: "+this.listaPuntos.size());
-        for (Punto p : listaPuntos) {
-            //p.dibujaPunto(g);
+
+    private void iniciarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarBtnActionPerformed
+        // TODO add your handling code here:
+        int numPuntos;
+        if (opcionDatosCB.getSelectedIndex() == 0 || algoritmoCB.getSelectedIndex() == 0) {
+           JOptionPane.showMessageDialog(null, "Rellene todos los campos.");
         }
-    }
+        else{
+             if (opcionDatosCB.getSelectedIndex() == 2) {
+                try {
+                    numPuntos = Integer.parseInt(JOptionPane.showInputDialog(null, "¿Cuántos puntos desea generar?"));
+                } catch (HeadlessException | NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+                }
+            }
+             if (opcionDatosCB.getSelectedIndex() == 1) {
+                abrirFichero();
+            }
+        }
+    }//GEN-LAST:event_iniciarBtnActionPerformed
+
+
     /**
      * @param args the command line arguments
      */
@@ -320,27 +258,21 @@ public class Menu_Practica extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
-                new Menu_Practica().setVisible(true);
-                
-                /*
-                Object opcion = JOptionPane.showInputDialog(null,"Abrir fichero o generar uno?",
-                "Punto más cercano a otro", JOptionPane.QUESTION_MESSAGE, null,
-                new Object[] { "Seleccione","Abrir dato", "Generar datos"},"Seleccione");
-                    int numero=Integer.parseInt((String) opcion);
-                System.out.println(opcion.toString());
 
-                System.out.println("opcion: "+opcion.hashCode());*/
+                new Menu_Practica().setVisible(true);
+
+               
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> algoritmoCB;
     private javax.swing.JPanel compararContent;
     private javax.swing.JPanel comprobarContent;
     private javax.swing.JPanel graphContent;
     private javax.swing.JPanel homeContent;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton iniciarBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -349,4 +281,17 @@ public class Menu_Practica extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> opcionDatosCB;
     private javax.swing.JPanel paramContent;
     // End of variables declaration//GEN-END:variables
+
+    private void abrirFichero() {
+              String s="";
+        JFileChooser filChoose= new JFileChooser(System.getProperty("user.dir"));//Cogemos directorios desde /home
+        filChoose.setFileSelectionMode(JFileChooser.FILES_ONLY);//Solo acepta ficheros
+        filChoose.setFileFilter(new FileNameExtensionFilter("txt", "txt"));//Coje ficheros cuya extension sea esas
+        JFrame f=new JFrame();//Necesario, para poder hacer dispose()
+        if(filChoose.showOpenDialog(f)==JFileChooser.APPROVE_OPTION){
+            File file= filChoose.getSelectedFile();//Cogemos el fichero seleccionado
+            s=file.getName();
+        }
+        System.out.println("Nombre fichero: "+s);
+    }
 }
