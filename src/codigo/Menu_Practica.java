@@ -5,9 +5,11 @@
  */
 package codigo;
 
+import java.awt.Graphics;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -55,6 +57,7 @@ public class Menu_Practica extends javax.swing.JFrame {
         compararContent = new javax.swing.JPanel();
         comprobarContent = new javax.swing.JPanel();
         graphContent = new javax.swing.JPanel();
+        displayBtn = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -170,15 +173,31 @@ public class Menu_Practica extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("COMPROBAR", comprobarContent);
 
+        graphContent.setBackground(new java.awt.Color(255, 255, 255));
+        graphContent.setPreferredSize(new java.awt.Dimension(1450, 700));
+
+        displayBtn.setText("Mostar");
+        displayBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout graphContentLayout = new javax.swing.GroupLayout(graphContent);
         graphContent.setLayout(graphContentLayout);
         graphContentLayout.setHorizontalGroup(
             graphContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1479, Short.MAX_VALUE)
+            .addGroup(graphContentLayout.createSequentialGroup()
+                .addGap(648, 648, 648)
+                .addComponent(displayBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(758, Short.MAX_VALUE))
         );
         graphContentLayout.setVerticalGroup(
             graphContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 707, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, graphContentLayout.createSequentialGroup()
+                .addContainerGap(422, Short.MAX_VALUE)
+                .addComponent(displayBtn)
+                .addGap(262, 262, 262))
         );
 
         jTabbedPane1.addTab("GRAPH", graphContent);
@@ -208,22 +227,31 @@ public class Menu_Practica extends javax.swing.JFrame {
         // TODO add your handling code here:
         int numPuntos;
         if (opcionDatosCB.getSelectedIndex() == 0 || algoritmoCB.getSelectedIndex() == 0) {
-           JOptionPane.showMessageDialog(null, "Rellene todos los campos.");
-        }
-        else{
-             if (opcionDatosCB.getSelectedIndex() == 2) {
+            JOptionPane.showMessageDialog(null, "Rellene todos los campos.");
+        } else {
+            if (opcionDatosCB.getSelectedIndex() == 2) {
                 try {
                     numPuntos = Integer.parseInt(JOptionPane.showInputDialog(null, "¿Cuántos puntos desea generar?"));
+                    generaPuntos(numPuntos);
                 } catch (HeadlessException | NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
                 }
             }
-             if (opcionDatosCB.getSelectedIndex() == 1) {
+            if (opcionDatosCB.getSelectedIndex() == 1) {
                 abrirFichero();
             }
+            //etiquetaGraph.setVisible(false);
         }
     }//GEN-LAST:event_iniciarBtnActionPerformed
 
+    private void displayBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayBtnActionPerformed
+        // TODO add your handling code here:
+        int maxX = graphContent.getWidth();
+        int maxY = graphContent.getHeight();
+        Graphics g = graphContent.getGraphics();
+        displayBtn.setVisible(false);
+        dibujaGraph();
+    }//GEN-LAST:event_displayBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,7 +286,6 @@ public class Menu_Practica extends javax.swing.JFrame {
 
                 new Menu_Practica().setVisible(true);
 
-               
             }
         });
     }
@@ -267,6 +294,7 @@ public class Menu_Practica extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> algoritmoCB;
     private javax.swing.JPanel compararContent;
     private javax.swing.JPanel comprobarContent;
+    private javax.swing.JButton displayBtn;
     private javax.swing.JPanel graphContent;
     private javax.swing.JPanel homeContent;
     private javax.swing.JButton iniciarBtn;
@@ -280,15 +308,42 @@ public class Menu_Practica extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void abrirFichero() {
-              String s="";
-        JFileChooser filChoose= new JFileChooser(System.getProperty("user.dir"));//Cogemos directorios desde /home
+        String s = "";
+        JFileChooser filChoose = new JFileChooser(System.getProperty("user.dir"));//Cogemos directorios desde /home
         filChoose.setFileSelectionMode(JFileChooser.FILES_ONLY);//Solo acepta ficheros
         filChoose.setFileFilter(new FileNameExtensionFilter("txt", "txt"));//Coje ficheros cuya extension sea esas
-        JFrame f=new JFrame();//Necesario, para poder hacer dispose()
-        if(filChoose.showOpenDialog(f)==JFileChooser.APPROVE_OPTION){
-            File file= filChoose.getSelectedFile();//Cogemos el fichero seleccionado
-            s=file.getName();
+        JFrame f = new JFrame();//Necesario, para poder hacer dispose()
+        if (filChoose.showOpenDialog(f) == JFileChooser.APPROVE_OPTION) {
+            File file = filChoose.getSelectedFile();//Cogemos el fichero seleccionado
+            s = file.getName();
         }
+
+    }
+
+    private void generaPuntos(int cantidad) {
+        Random r = new Random();
+
+        int x, y;
+        Punto p;
+        int maxX = graphContent.getWidth();
+        int maxY = graphContent.getHeight();
         
+        for (int i = 0; i < cantidad; i++) {
+            // int myValue = r.nextInt(max-offset)+offset;
+            x = r.nextInt(maxX);
+            y = r.nextInt(maxY);
+            p = new Punto(x, y, i);
+            listaPuntos.add(p);
+        }
+    }
+
+    private void dibujaGraph() {
+        int size = listaPuntos.size();
+        Graphics g = graphContent.getGraphics();
+        graphContent.setVisible(true);
+        for (int i = 0; i < size; i++) {
+            listaPuntos.get(i).dibujaPunto(g);
+        }
+        System.out.println("listo");
     }
 }

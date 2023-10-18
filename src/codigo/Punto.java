@@ -5,6 +5,7 @@
  */
 package codigo;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -69,6 +70,7 @@ public class Punto {
         return Math.sqrt(Math.pow(this.x - p2.getX(), 2) + Math.pow(this.getY(), 2));
     }
     public void dibujaPunto(Graphics g){
-        g.fillOval(getX(), getY(),5, 5);
+        g.fillOval(getX(), getY(),120, 120);
+        g.setColor(Color.red);
     }
 }
