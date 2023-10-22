@@ -23,7 +23,7 @@ public class Algoritmos {
         if(puntos.size()<=1){
             return puntos;
         }
-        //Math ceil -> redondea al alza
+        //Math ceil -> redondea al alza el valor pasado por parametro
         int mitad = (int)Math.ceil(puntos.size()/2);
         Punto pivot = puntos.get(mitad);
         
@@ -53,11 +53,27 @@ public class Algoritmos {
     
 /* ALGORITMOS */
     //EXHAUSTIVO
-    public void Exhaustivo(){
+    public ArrayList<Punto> Exhaustivo(ArrayList<Punto> puntos){
         // ordenar coords
-        
+        ArrayList<Punto> p = this.Quicksort(puntos);
         // alg
+        double distanciaMin = 9999999999.9, distancia;
+        int x = -1, y = -1;
+        for(int i = 0; i < puntos.size()-1; i++ ){
+            for(int j = i+1; j < puntos.size(); j++){
+                distancia = puntos.get(i).getDistancia(puntos.get(j));
+                if(Double.compare(distancia, distanciaMin)<0){//d1 < d2
+                    distanciaMin = distancia;
+                    x = i;
+                    y = j;
+                }
+            }
+        }
+        ArrayList<Punto> solucion = new ArrayList<>(2);
+        solucion.add(puntos.get(x));
+        solucion.add(puntos.get(y));
         
+        return solucion;
     }
     //EXHAUSTIVO PODA
     public void ExhaustivoPoda(){
