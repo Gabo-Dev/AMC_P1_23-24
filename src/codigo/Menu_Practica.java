@@ -246,11 +246,15 @@ public class Menu_Practica extends javax.swing.JFrame {
 
     private void displayBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayBtnActionPerformed
         // TODO add your handling code here:
-        int maxX = graphContent.getWidth();
-        int maxY = graphContent.getHeight();
-        Graphics g = graphContent.getGraphics();
-        displayBtn.setVisible(false);
-        dibujaGraph();
+        if (listaPuntos.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay datos....");
+        } else {
+            int maxX = graphContent.getWidth();
+            int maxY = graphContent.getHeight();
+            Graphics g = graphContent.getGraphics();
+            displayBtn.setVisible(false);
+            dibujaGraph();
+        }
     }//GEN-LAST:event_displayBtnActionPerformed
 
     /**
@@ -327,7 +331,7 @@ public class Menu_Practica extends javax.swing.JFrame {
         Punto p;
         int maxX = graphContent.getWidth();
         int maxY = graphContent.getHeight();
-        
+
         for (int i = 0; i < cantidad; i++) {
             // int myValue = r.nextInt(max-offset)+offset;
             x = r.nextInt(maxX);
