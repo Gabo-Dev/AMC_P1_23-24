@@ -7,7 +7,10 @@ package codigo;
 
 import java.awt.Graphics;
 import java.awt.HeadlessException;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JFileChooser;
@@ -320,6 +323,7 @@ public class Menu_Practica extends javax.swing.JFrame {
         if (filChoose.showOpenDialog(f) == JFileChooser.APPROVE_OPTION) {
             File file = filChoose.getSelectedFile();//Cogemos el fichero seleccionado
             s = file.getName();
+            cargarPuntos(s);
         }
 
     }
@@ -327,15 +331,15 @@ public class Menu_Practica extends javax.swing.JFrame {
     private void generaPuntos(int cantidad) {
         Random r = new Random();
 
-        int x, y;
+        Double x, y;
         Punto p;
         int maxX = graphContent.getWidth();
         int maxY = graphContent.getHeight();
 
         for (int i = 0; i < cantidad; i++) {
             // int myValue = r.nextInt(max-offset)+offset;
-            x = r.nextInt(maxX);
-            y = r.nextInt(maxY);
+            x = r.nextDouble();
+            y = r.nextDouble();
             p = new Punto(x, y, i);
             listaPuntos.add(p);
         }
@@ -349,5 +353,60 @@ public class Menu_Practica extends javax.swing.JFrame {
             listaPuntos.get(i).dibujaPunto(g);
         }
         System.out.println("listo");
+    }
+
+    private void cargarPuntos(String s) {
+         int i = 0;
+         BufferedReader entradaDatos;
+         double ancho = 0, alto = 0;
+         
+        try {
+            entradaDatos = new BufferedReader(new FileReader(s));
+            String Linea;
+            boolean CordSection = false;
+            while ((Linea = entradaDatos.readLine()) != null) {
+                if (!Linea.equals("EOF") && !Linea.equals("")) {
+                    if (CordSection) {
+                        int a = -1, b = -1, c = -1, o = -1;
+                        String[] parts = Linea.split(" ");
+                        while (o<parts.length) {
+                            if (!parts[o].isEmpty()) {
+                                if (a==-1) {
+                                    a=o;
+                                }
+                                else if (b==-1) {
+                                    b=o;
+                                }
+                                else if(c==-1){
+                                    c=o;
+                                }
+                            }
+                            o++;
+                        }
+                        
+                        if (ancho<Double.parseDouble(parts[b].trim())) {
+                            ancho = (int) Double.parseDouble(parts[b].trim());  
+                        }
+                        
+                        if (alto<Double.parseDouble(parts[c].trim())) {
+                            alto= (int) Double.parseDouble(parts[c].trim());
+                        }
+                        listaPuntos.add(new Punto(Double.parseDouble(parts[b].trim()),Double.parseDouble(parts[c].trim()),Integer.parseInt(parts[a].trim())));
+                    }
+                    else{
+                        if (Linea.equals("NODE_COORD_SECTION")) {
+                            CordSection =true;
+                        }
+                        else if (Linea.contains("DIMENSION")) {
+                            String[] parts = Linea.split(" ");
+                            
+                        }
+                    }
+                }
+            }
+            entradaDatos.close();
+        } catch (IOException e) {
+            System.out.println("Error al leeer el fichero");
+        }
     }
 }

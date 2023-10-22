@@ -14,11 +14,11 @@ import java.awt.Graphics;
  */
 public class Punto {
     
-    private int x;
-    private int y;
+    private Double x;
+    private Double y;
     private int id;
 
-    public Punto(int x, int y, int id) {
+    public Punto(Double x, Double y, int id) {
         this.x = x;
         this.y = y;
         this.id = id;
@@ -27,28 +27,28 @@ public class Punto {
     /**
      * @return the x
      */
-    public int getX() {
+    public Double getX() {
         return x;
     }
 
     /**
      * @param x the x to set
      */
-    public void setX(int x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
     /**
      * @return the y
      */
-    public int getY() {
+    public Double getY() {
         return y;
     }
 
     /**
      * @param y the y to set
      */
-    public void setY(int y) {
+    public void setY(Double y) {
         this.y = y;
     }
 
@@ -70,7 +70,7 @@ public class Punto {
         return Math.sqrt(Math.pow(this.x - p2.getX(), 2) + Math.pow(this.getY(), 2));
     }
     public void dibujaPunto(Graphics g){
-        g.fillOval(getX(), getY(),120, 120);
+        g.fillOval(getX().intValue(), getY().intValue(),120, 120);
         g.setColor(Color.red);
     }
 }
