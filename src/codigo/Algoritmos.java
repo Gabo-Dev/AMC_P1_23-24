@@ -37,15 +37,17 @@ public class Algoritmos {
                 mayores.add(punto);
             }
         }
-        return concatenar(menores, pivot, mayores);
+        //return concatenar(menores, pivot, mayores);
+        return concatenar(menores, mayores);
     }
 
-    public ArrayList<Punto> concatenar(ArrayList<Punto> menores, Punto pivot, ArrayList<Punto> mayores) {
+    //public ArrayList<Punto> concatenar(ArrayList<Punto> menores, Punto pivot, ArrayList<Punto> mayores) {
+    public ArrayList<Punto> concatenar(ArrayList<Punto> menores, ArrayList<Punto> mayores) {
         ArrayList<Punto> puntos = new ArrayList<>();
         for (Punto menor : menores) {
             puntos.add(menor);
         }
-        puntos.add(pivot);
+        //puntos.add(pivot);
         for (Punto mayor : mayores) {
             puntos.add(mayor);
         }
@@ -62,7 +64,7 @@ public class Algoritmos {
         int x = -1, y = -1;
         for (int i = 0; i < puntos.size() - 1; i++) {
             for (int j = i + 1; j < puntos.size(); j++) {
-                distancia = puntos.get(i).getDistancia(puntos.get(j));
+                distancia = puntos.get(i).getDistanciaX(puntos.get(j));
                 if (Double.compare(distancia, distanciaMin) < 0) {//d1 < d2
                     distanciaMin = distancia;
                     x = i;
@@ -85,12 +87,12 @@ public class Algoritmos {
         double distanciaMin = 9999999999.9, distancia;
         int x = -1, y = -1, j = 1;
         boolean isMenor = false;
-        for (int i = 0; i < puntos.size() - 1; i++) {
+        for (int i = 0; i < p.size() - 1; i++) {
             
 
             //for(int j = i+1; j < puntos.size(); j++)
-            while (j < puntos.size()-1 || isMenor) {
-                distancia = puntos.get(i).getDistanciaX(puntos.get(j));
+            while (j < p.size() || !isMenor) {
+                distancia = p.get(i).getDistanciaX(p.get(j));
                 if (Double.compare(distancia, distanciaMin) < 0) {//d1 < d2
                     distanciaMin = distancia;
                     x = i;

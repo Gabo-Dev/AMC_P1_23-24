@@ -272,9 +272,11 @@ public class Menu_Practica extends javax.swing.JFrame {
                     solucion=alg.Exhaustivo(listaPuntos);
                     System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
                     System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
+                    System.out.println("distancia: "+solucion.get(0).getDistanciaX(solucion.get(1)));
                     solucion=alg.ExhaustivoPoda(listaPuntos);
                     System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
                     System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
+                    System.out.println("distancia: "+solucion.get(0).getDistanciaX(solucion.get(1)));
                     break;
                 case 2:
                     break;
