@@ -9,10 +9,13 @@ import java.awt.Graphics;
 import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -24,7 +27,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Menu_Practica extends javax.swing.JFrame {
 
-    private String nameFich;
     private ArrayList<Punto> listaPuntos;
     private int valorMaximoX, valorMaximoY;
 
@@ -241,7 +243,11 @@ public class Menu_Practica extends javax.swing.JFrame {
                 }
             }
             if (opcionDatosCB.getSelectedIndex() == 1) {
-                abrirFichero();
+                try {
+                    abrirFichero();
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Menu_Practica.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             //etiquetaGraph.setVisible(false);
         }
@@ -314,15 +320,14 @@ public class Menu_Practica extends javax.swing.JFrame {
     private javax.swing.JPanel paramContent;
     // End of variables declaration//GEN-END:variables
 
-    private void abrirFichero() {
-        String s = "";
+    private void abrirFichero() throws FileNotFoundException {
         JFileChooser filChoose = new JFileChooser(System.getProperty("user.dir"));//Cogemos directorios desde /home
         filChoose.setFileSelectionMode(JFileChooser.FILES_ONLY);//Solo acepta ficheros
         filChoose.setFileFilter(new FileNameExtensionFilter("txt", "txt"));//Coje ficheros cuya extension sea esas
         JFrame f = new JFrame();//Necesario, para poder hacer dispose()
         if (filChoose.showOpenDialog(f) == JFileChooser.APPROVE_OPTION) {
             File file = filChoose.getSelectedFile();//Cogemos el fichero seleccionado
-            s = file.getName();
+            FileReader s  =  new FileReader(file);
             cargarPuntos(s);
         }
 
@@ -333,8 +338,8 @@ public class Menu_Practica extends javax.swing.JFrame {
 
         Double x, y;
         Punto p;
-        int maxX = graphContent.getWidth();
-        int maxY = graphContent.getHeight();
+//        int maxX = graphContent.getWidth();
+//        int maxY = graphContent.getHeight();
 
         for (int i = 0; i < cantidad; i++) {
             // int myValue = r.nextInt(max-offset)+offset;
@@ -355,28 +360,31 @@ public class Menu_Practica extends javax.swing.JFrame {
         System.out.println("listo");
     }
 
-    private void cargarPuntos(String s) {
+    private void cargarPuntos(FileReader s) {
          int i = 0;
          BufferedReader entradaDatos;
          double ancho = 0, alto = 0;
          
         try {
-            entradaDatos = new BufferedReader(new FileReader(s));
+            entradaDatos = new BufferedReader(s);
             String Linea;
             boolean CordSection = false;
             while ((Linea = entradaDatos.readLine()) != null) {
                 if (!Linea.equals("EOF") && !Linea.equals("")) {
                     if (CordSection) {
-                        int a = -1, b = -1, c = -1, o = -1;
+                        int a = -1, b = -1, c = -1, o = 0;
                         String[] parts = Linea.split(" ");
                         while (o<parts.length) {
                             if (!parts[o].isEmpty()) {
+                                //  setID
                                 if (a==-1) {
                                     a=o;
                                 }
+                                // set X
                                 else if (b==-1) {
                                     b=o;
                                 }
+                                //  set Y
                                 else if(c==-1){
                                     c=o;
                                 }
@@ -399,14 +407,14 @@ public class Menu_Practica extends javax.swing.JFrame {
                         }
                         else if (Linea.contains("DIMENSION")) {
                             String[] parts = Linea.split(" ");
-                            
                         }
                     }
                 }
             }
             entradaDatos.close();
         } catch (IOException e) {
-            System.out.println("Error al leeer el fichero");
+            JOptionPane.showMessageDialog(paramContent, e);
         }
+        System.out.println("hh");
     }
 }
