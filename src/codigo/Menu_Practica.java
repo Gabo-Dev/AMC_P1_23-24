@@ -415,6 +415,5 @@ public class Menu_Practica extends javax.swing.JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(paramContent, e);
         }
-        System.out.println("hh");
     }
 }
