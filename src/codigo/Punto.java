@@ -70,7 +70,7 @@ public class Punto {
         return Math.sqrt(Math.pow(this.x - p2.getX(), 2) + Math.pow(this.getY(), 2));
     }
     public void dibujaPunto(Graphics g){
-        g.fillOval(getX().intValue(), getY().intValue(),120, 120);
+        g.fillOval(getX().intValue(), getY().intValue(),8, 8);
         g.setColor(Color.red);
     }
 }
