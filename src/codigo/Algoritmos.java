@@ -103,7 +103,7 @@ public class Algoritmos {
                 }
                 j++;
             }
-            j = i + 1;
+            //j = i + 1;
         }
         ArrayList<Punto> solucion = new ArrayList<>(2);
         solucion.add(p.get(x));
@@ -114,13 +114,33 @@ public class Algoritmos {
     //DYV
     public ArrayList<Punto> DYV(ArrayList<Punto> puntos) {
         // ordenar coords
-
+        ArrayList<Punto> p = this.Quicksort(puntos);
         //alg
-            //cod alg
             
-        ArrayList<Punto> solucion = new ArrayList<>(2);
+            
+        //ArrayList<Punto> solucion = new ArrayList<>(2);
         //solucion.add(p.get(x));
         //solucion.add(p.get(y));
+        return DYV(p,0,p.size());
+    }
+    public ArrayList<Punto> DYV(ArrayList<Punto> puntos, int izq, int der){
+        ArrayList<Punto> solucion = new ArrayList<>(), solIzq, solDer;
+        int mitad = (izq+der)/2;
+        if((der-izq)+1 >= 3){
+            solIzq = DYV(puntos,izq,mitad);
+            solDer = DYV(puntos,mitad+1,der);
+            
+            double distIzq = solIzq.get(0).getDistanciaX(solIzq.get(1));
+            double distDer = solDer.get(0).getDistanciaX(solDer.get(1));
+            if(Double.compare(distIzq, distDer)<0){
+                solucion = solIzq;
+            }else{
+                solucion = solDer;
+            }
+        }else{
+            solucion = this.Exhaustivo(puntos);
+        }
+        
         return solucion;
     }
 
