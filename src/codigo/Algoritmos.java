@@ -58,7 +58,7 @@ public class Algoritmos {
     //EXHAUSTIVO
     public ArrayList<Punto> Exhaustivo(ArrayList<Punto> puntos) {
         // ordenar coords
-        //  ArrayList<Punto> p = this.Quicksort(puntos);
+            // para este alg no hace falta ordenarlo porque se compara a fuerza bruta "todos" los puntos
         // alg
         double distanciaMin = 9999999999.9, distancia;
         int x = -1, y = -1;
@@ -85,11 +85,10 @@ public class Algoritmos {
         ArrayList<Punto> p = this.Quicksort(puntos);
         //alg
         double distanciaMin = 9999999999.9, distancia;
-        int x = -1, y = -1, j = 1;
+        int x = -1, y = -1, j;
         boolean isMenor = false;
         for (int i = 0; i < p.size() - 1; i++) {
-            
-
+            j = i+1;
             //for(int j = i+1; j < puntos.size(); j++)
             while (j < p.size() || !isMenor) {
                 distancia = p.get(i).getDistanciaX(p.get(j));
@@ -107,22 +106,34 @@ public class Algoritmos {
             j = i + 1;
         }
         ArrayList<Punto> solucion = new ArrayList<>(2);
-        solucion.add(puntos.get(x));
-        solucion.add(puntos.get(y));
+        solucion.add(p.get(x));
+        solucion.add(p.get(y));
         return solucion;
     }
 
     //DYV
-    public void DYV() {
+    public ArrayList<Punto> DYV(ArrayList<Punto> puntos) {
         // ordenar coords
 
         //alg
+            //cod alg
+            
+        ArrayList<Punto> solucion = new ArrayList<>(2);
+        //solucion.add(p.get(x));
+        //solucion.add(p.get(y));
+        return solucion;
     }
 
     //DYV MEJORADO
-    public void DYVMejorado() {
+    public ArrayList<Punto> DYVMejorado(ArrayList<Punto> puntos) {
         // ordenar coords
 
         //alg
+            //cod alg
+            
+        ArrayList<Punto> solucion = new ArrayList<>(2);
+        //solucion.add(p.get(x));
+        //solucion.add(p.get(y));
+        return solucion;
     }
 }
