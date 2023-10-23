@@ -60,6 +60,7 @@ public class Menu_Practica extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         iniciarBtn = new javax.swing.JButton();
         compararContent = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         comprobarContent = new javax.swing.JPanel();
         graphContent = new javax.swing.JPanel();
         displayBtn = new javax.swing.JButton();
@@ -152,15 +153,28 @@ public class Menu_Practica extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("HOME", homeContent);
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout compararContentLayout = new javax.swing.GroupLayout(compararContent);
         compararContent.setLayout(compararContentLayout);
         compararContentLayout.setHorizontalGroup(
             compararContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1479, Short.MAX_VALUE)
+            .addGroup(compararContentLayout.createSequentialGroup()
+                .addGap(390, 390, 390)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1016, Short.MAX_VALUE))
         );
         compararContentLayout.setVerticalGroup(
             compararContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 707, Short.MAX_VALUE)
+            .addGroup(compararContentLayout.createSequentialGroup()
+                .addGap(153, 153, 153)
+                .addComponent(jButton1)
+                .addContainerGap(531, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("COMPARAR", compararContent);
@@ -230,10 +244,12 @@ public class Menu_Practica extends javax.swing.JFrame {
 
     private void iniciarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarBtnActionPerformed
         // TODO add your handling code here:
+        ArrayList<Punto> solucion = null;
         int numPuntos;
         if (opcionDatosCB.getSelectedIndex() == 0 || algoritmoCB.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(null, "Rellene todos los campos.");
         } else {
+
             if (opcionDatosCB.getSelectedIndex() == 2) {
                 try {
                     numPuntos = Integer.parseInt(JOptionPane.showInputDialog(null, "¿Cuántos puntos desea generar?"));
@@ -249,8 +265,30 @@ public class Menu_Practica extends javax.swing.JFrame {
                     Logger.getLogger(Menu_Practica.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            //etiquetaGraph.setVisible(false);
+            Algoritmos alg = new Algoritmos();
+            switch (algoritmoCB.getSelectedIndex()) {
+                
+                case 1:
+                    solucion=alg.Exhaustivo(listaPuntos);
+                    System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
+                    System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
+                    solucion=alg.ExhaustivoPoda(listaPuntos);
+                    System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
+                    System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                default:
+                    break;
+
+            }
         }
+
+
     }//GEN-LAST:event_iniciarBtnActionPerformed
 
     private void displayBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayBtnActionPerformed
@@ -265,6 +303,11 @@ public class Menu_Practica extends javax.swing.JFrame {
             dibujaGraph();
         }
     }//GEN-LAST:event_displayBtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -311,6 +354,7 @@ public class Menu_Practica extends javax.swing.JFrame {
     private javax.swing.JPanel graphContent;
     private javax.swing.JPanel homeContent;
     private javax.swing.JButton iniciarBtn;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -327,7 +371,7 @@ public class Menu_Practica extends javax.swing.JFrame {
         JFrame f = new JFrame();//Necesario, para poder hacer dispose()
         if (filChoose.showOpenDialog(f) == JFileChooser.APPROVE_OPTION) {
             File file = filChoose.getSelectedFile();//Cogemos el fichero seleccionado
-            FileReader s  =  new FileReader(file);
+            FileReader s = new FileReader(file);
             cargarPuntos(s);
         }
 
@@ -361,10 +405,10 @@ public class Menu_Practica extends javax.swing.JFrame {
     }
 
     private void cargarPuntos(FileReader s) {
-         int i = 0;
-         BufferedReader entradaDatos;
-         double ancho = 0, alto = 0;
-         
+        int i = 0;
+        BufferedReader entradaDatos;
+        double ancho = 0, alto = 0;
+
         try {
             entradaDatos = new BufferedReader(s);
             String Linea;
@@ -374,38 +418,34 @@ public class Menu_Practica extends javax.swing.JFrame {
                     if (CordSection) {
                         int a = -1, b = -1, c = -1, o = 0;
                         String[] parts = Linea.split(" ");
-                        while (o<parts.length) {
+                        while (o < parts.length) {
                             if (!parts[o].isEmpty()) {
                                 //  setID
-                                if (a==-1) {
-                                    a=o;
-                                }
-                                // set X
-                                else if (b==-1) {
-                                    b=o;
-                                }
-                                //  set Y
-                                else if(c==-1){
-                                    c=o;
+                                if (a == -1) {
+                                    a = o;
+                                } // set X
+                                else if (b == -1) {
+                                    b = o;
+                                } //  set Y
+                                else if (c == -1) {
+                                    c = o;
                                 }
                             }
                             o++;
                         }
-                        
-                        if (ancho<Double.parseDouble(parts[b].trim())) {
-                            ancho = (int) Double.parseDouble(parts[b].trim());  
+
+                        if (ancho < Double.parseDouble(parts[b].trim())) {
+                            ancho = (int) Double.parseDouble(parts[b].trim());
                         }
-                        
-                        if (alto<Double.parseDouble(parts[c].trim())) {
-                            alto= (int) Double.parseDouble(parts[c].trim());
+
+                        if (alto < Double.parseDouble(parts[c].trim())) {
+                            alto = (int) Double.parseDouble(parts[c].trim());
                         }
-                        listaPuntos.add(new Punto(Double.parseDouble(parts[b].trim()),Double.parseDouble(parts[c].trim()),Integer.parseInt(parts[a].trim())));
-                    }
-                    else{
+                        listaPuntos.add(new Punto(Double.parseDouble(parts[b].trim()), Double.parseDouble(parts[c].trim()), Integer.parseInt(parts[a].trim())));
+                    } else {
                         if (Linea.equals("NODE_COORD_SECTION")) {
-                            CordSection =true;
-                        }
-                        else if (Linea.contains("DIMENSION")) {
+                            CordSection = true;
+                        } else if (Linea.contains("DIMENSION")) {
                             String[] parts = Linea.split(" ");
                         }
                     }

@@ -13,33 +13,34 @@ import java.util.ArrayList;
  */
 public class Algoritmos {
     //ArrayList<Punto> puntosDesordenados;
-    
-    Algoritmos(){
+
+    Algoritmos() {
         //this.puntosDesordenados = p;
     }
 
-/* ALG. ORDENAR PUNTOS */
-    public ArrayList<Punto> Quicksort(ArrayList<Punto> puntos){
-        if(puntos.size()<=1){
+    /* ALG. ORDENAR PUNTOS */
+    public ArrayList<Punto> Quicksort(ArrayList<Punto> puntos) {
+        if (puntos.size() <= 1) {
             return puntos;
         }
         //Math ceil -> redondea al alza el valor pasado por parametro
-        int mitad = (int)Math.ceil(puntos.size()/2);
+        int mitad = (int) Math.ceil(puntos.size() / 2);
         Punto pivot = puntos.get(mitad);
-        
+
         ArrayList<Punto> menores = new ArrayList<>();
         ArrayList<Punto> mayores = new ArrayList<>();
-        
+
         for (Punto punto : puntos) {
-            if(Double.compare(punto.getX(), pivot.getX())<=0){//0(d1==d2) -(d1<d2) +(d1>d2)
+            if (Double.compare(punto.getX(), pivot.getX()) < 0) {//0(d1==d2) -(d1<d2) +(d1>d2)
                 menores.add(punto);
-            }else{
+            } else {
                 mayores.add(punto);
             }
         }
         return concatenar(menores, pivot, mayores);
     }
-    public ArrayList<Punto> concatenar(ArrayList<Punto> menores, Punto pivot, ArrayList<Punto> mayores){
+
+    public ArrayList<Punto> concatenar(ArrayList<Punto> menores, Punto pivot, ArrayList<Punto> mayores) {
         ArrayList<Punto> puntos = new ArrayList<>();
         for (Punto menor : menores) {
             puntos.add(menor);
@@ -50,19 +51,19 @@ public class Algoritmos {
         }
         return puntos;
     }
-    
-/* ALGORITMOS */
+
+    /* ALGORITMOS */
     //EXHAUSTIVO
-    public ArrayList<Punto> Exhaustivo(ArrayList<Punto> puntos){
+    public ArrayList<Punto> Exhaustivo(ArrayList<Punto> puntos) {
         // ordenar coords
-        ArrayList<Punto> p = this.Quicksort(puntos);
+        //  ArrayList<Punto> p = this.Quicksort(puntos);
         // alg
         double distanciaMin = 9999999999.9, distancia;
         int x = -1, y = -1;
-        for(int i = 0; i < puntos.size()-1; i++ ){
-            for(int j = i+1; j < puntos.size(); j++){
+        for (int i = 0; i < puntos.size() - 1; i++) {
+            for (int j = i + 1; j < puntos.size(); j++) {
                 distancia = puntos.get(i).getDistancia(puntos.get(j));
-                if(Double.compare(distancia, distanciaMin)<0){//d1 < d2
+                if (Double.compare(distancia, distanciaMin) < 0) {//d1 < d2
                     distanciaMin = distancia;
                     x = i;
                     y = j;
@@ -72,28 +73,54 @@ public class Algoritmos {
         ArrayList<Punto> solucion = new ArrayList<>(2);
         solucion.add(puntos.get(x));
         solucion.add(puntos.get(y));
-        
+
         return solucion;
     }
+
     //EXHAUSTIVO PODA
-    public void ExhaustivoPoda(ArrayList<Punto> puntos){
+    public ArrayList<Punto> ExhaustivoPoda(ArrayList<Punto> puntos) {
         // ordenar coords
         ArrayList<Punto> p = this.Quicksort(puntos);
         //alg
-        
+        double distanciaMin = 9999999999.9, distancia;
+        int x = -1, y = -1, j = 1;
+        boolean isMenor = false;
+        for (int i = 0; i < puntos.size() - 1; i++) {
+            
+
+            //for(int j = i+1; j < puntos.size(); j++)
+            while (j < puntos.size()-1 || isMenor) {
+                distancia = puntos.get(i).getDistanciaX(puntos.get(j));
+                if (Double.compare(distancia, distanciaMin) < 0) {//d1 < d2
+                    distanciaMin = distancia;
+                    x = i;
+                    y = j;
+                }
+                else{
+                    //  Descartamos pk > pj
+                    isMenor = true;
+                }
+                j++;
+            }
+            j = i + 1;
+        }
+        ArrayList<Punto> solucion = new ArrayList<>(2);
+        solucion.add(puntos.get(x));
+        solucion.add(puntos.get(y));
+        return solucion;
     }
+
     //DYV
-    public void DYV(){
+    public void DYV() {
         // ordenar coords
-        
+
         //alg
-        
     }
+
     //DYV MEJORADO
-    public void DYVMejorado(){
+    public void DYVMejorado() {
         // ordenar coords
-        
+
         //alg
-        
     }
 }
