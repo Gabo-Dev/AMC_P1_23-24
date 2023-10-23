@@ -76,9 +76,9 @@ public class Algoritmos {
         return solucion;
     }
     //EXHAUSTIVO PODA
-    public void ExhaustivoPoda(){
+    public void ExhaustivoPoda(ArrayList<Punto> puntos){
         // ordenar coords
-        
+        ArrayList<Punto> p = this.Quicksort(puntos);
         //alg
         
     }
