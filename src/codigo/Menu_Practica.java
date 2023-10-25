@@ -38,7 +38,7 @@ public class Menu_Practica extends javax.swing.JFrame {
         setTitle("Menu Principal");
         this.setLocationRelativeTo(null);
         this.listaPuntos = new ArrayList<>();
-
+        this.tablaCompara.setVisible(false);
     }
 
     /**
@@ -60,7 +60,12 @@ public class Menu_Practica extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         iniciarBtn = new javax.swing.JButton();
         compararContent = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaCompara = new javax.swing.JTable();
+        insertarTallaBtn = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        calcularComparaBtn = new javax.swing.JButton();
         comprobarContent = new javax.swing.JPanel();
         graphContent = new javax.swing.JPanel();
         displayBtn = new javax.swing.JButton();
@@ -153,10 +158,28 @@ public class Menu_Practica extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("HOME", homeContent);
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        tablaCompara.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"1000", null, null, null, null},
+                {"2000", null, null, null, null},
+                {"3000", null, null, null, null},
+                {"4000", null, null, null, null},
+                {"5000", null, null, null, null}
+            },
+            new String [] {
+                "Talla", "Exhaustivo (mseg)", "Ex. Poda (mseg)", "D&V (mseg)", "D&V Mejora (mseg)"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaCompara);
+
+        insertarTallaBtn.setText("Insertar");
+
+        jLabel4.setText("Insertar talla adicional: ");
+
+        calcularComparaBtn.setText("Calcular");
+        calcularComparaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                calcularComparaBtnActionPerformed(evt);
             }
         });
 
@@ -165,16 +188,33 @@ public class Menu_Practica extends javax.swing.JFrame {
         compararContentLayout.setHorizontalGroup(
             compararContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(compararContentLayout.createSequentialGroup()
-                .addGap(390, 390, 390)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1016, Short.MAX_VALUE))
+                .addGroup(compararContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(compararContentLayout.createSequentialGroup()
+                        .addGap(441, 441, 441)
+                        .addComponent(jLabel4)
+                        .addGap(81, 81, 81)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(insertarTallaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(calcularComparaBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(compararContentLayout.createSequentialGroup()
+                        .addGap(379, 379, 379)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(480, Short.MAX_VALUE))
         );
         compararContentLayout.setVerticalGroup(
             compararContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(compararContentLayout.createSequentialGroup()
-                .addGap(153, 153, 153)
-                .addComponent(jButton1)
-                .addContainerGap(531, Short.MAX_VALUE))
+                .addGap(202, 202, 202)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addGroup(compararContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(insertarTallaBtn)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(calcularComparaBtn))
+                .addContainerGap(343, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("COMPARAR", compararContent);
@@ -310,10 +350,11 @@ public class Menu_Practica extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_displayBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void calcularComparaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcularComparaBtnActionPerformed
         // TODO add your handling code here:
-
-    }//GEN-LAST:event_jButton1ActionPerformed
+        generaPuntos(1000);
+        listaPuntos.clear();
+    }//GEN-LAST:event_calcularComparaBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -354,20 +395,25 @@ public class Menu_Practica extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> algoritmoCB;
+    private javax.swing.JButton calcularComparaBtn;
     private javax.swing.JPanel compararContent;
     private javax.swing.JPanel comprobarContent;
     private javax.swing.JButton displayBtn;
     private javax.swing.JPanel graphContent;
     private javax.swing.JPanel homeContent;
     private javax.swing.JButton iniciarBtn;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton insertarTallaBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JComboBox<String> opcionDatosCB;
     private javax.swing.JPanel paramContent;
+    private javax.swing.JTable tablaCompara;
     // End of variables declaration//GEN-END:variables
 
     private void abrirFichero() throws FileNotFoundException {
