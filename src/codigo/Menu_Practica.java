@@ -68,7 +68,7 @@ public class Menu_Practica extends javax.swing.JFrame {
         calcularComparaBtn = new javax.swing.JButton();
         comprobarContent = new javax.swing.JPanel();
         graphContent = new javax.swing.JPanel();
-        displayBtn = new javax.swing.JButton();
+        mostrarGraphBtn = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -235,10 +235,10 @@ public class Menu_Practica extends javax.swing.JFrame {
         graphContent.setBackground(new java.awt.Color(255, 255, 255));
         graphContent.setPreferredSize(new java.awt.Dimension(1450, 700));
 
-        displayBtn.setText("Mostar");
-        displayBtn.addActionListener(new java.awt.event.ActionListener() {
+        mostrarGraphBtn.setText("Mostar");
+        mostrarGraphBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                displayBtnActionPerformed(evt);
+                mostrarGraphBtnActionPerformed(evt);
             }
         });
 
@@ -248,14 +248,14 @@ public class Menu_Practica extends javax.swing.JFrame {
             graphContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(graphContentLayout.createSequentialGroup()
                 .addGap(648, 648, 648)
-                .addComponent(displayBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mostrarGraphBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(758, Short.MAX_VALUE))
         );
         graphContentLayout.setVerticalGroup(
             graphContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, graphContentLayout.createSequentialGroup()
                 .addContainerGap(422, Short.MAX_VALUE)
-                .addComponent(displayBtn)
+                .addComponent(mostrarGraphBtn)
                 .addGap(262, 262, 262))
         );
 
@@ -283,78 +283,79 @@ public class Menu_Practica extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void iniciarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarBtnActionPerformed
-        // TODO add your handling code here:
         ArrayList<Punto> solucion = null;
         int numPuntos;
-        if (opcionDatosCB.getSelectedIndex() == 0 || algoritmoCB.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(null, "Rellene todos los campos.");
-        } else {
+        try {
+            if (opcionDatosCB.getSelectedIndex() == 0 || algoritmoCB.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(null, "Rellene todos los campos.");
+            } else {
 
-            if (opcionDatosCB.getSelectedIndex() == 2) {
-                try {
-                    numPuntos = Integer.parseInt(JOptionPane.showInputDialog(null, "¿Cuántos puntos desea generar?"));
-                    generaPuntos(numPuntos);
-                } catch (HeadlessException | NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+                if (opcionDatosCB.getSelectedIndex() == 2) {
+                    try {
+                        numPuntos = Integer.parseInt(JOptionPane.showInputDialog(null, "¿Cuántos puntos desea generar?"));
+                        generaPuntos(numPuntos);
+                    } catch (HeadlessException | NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+                    }
+                }
+                if (opcionDatosCB.getSelectedIndex() == 1) {
+                    try {
+                        abrirFichero();
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(Menu_Practica.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                Algoritmos alg = new Algoritmos();
+                switch (algoritmoCB.getSelectedIndex()) {
+
+                    case 1:
+                        solucion = alg.Exhaustivo(listaPuntos);
+                        System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
+                        System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
+                        System.out.println(String.format("distancia: %.20f", solucion.get(0).getDistanciaX(solucion.get(1))));
+                        solucion = alg.ExhaustivoPoda(listaPuntos);
+                        System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
+                        System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
+                        System.out.println("distancia: " + solucion.get(0).getDistanciaX(solucion.get(1)));
+                        solucion = alg.DYV(listaPuntos);
+                        System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
+                        System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
+                        System.out.println("distancia: " + solucion.get(0).getDistanciaX(solucion.get(1)));
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        break;
+
                 }
             }
-            if (opcionDatosCB.getSelectedIndex() == 1) {
-                try {
-                    abrirFichero();
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(Menu_Practica.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            Algoritmos alg = new Algoritmos();
-            switch (algoritmoCB.getSelectedIndex()) {
-                
-                case 1:
-                    solucion=alg.Exhaustivo(listaPuntos);
-                    System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
-                    System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
-                    System.out.println("distancia: "+solucion.get(0).getDistanciaX(solucion.get(1)));
-                    solucion=alg.ExhaustivoPoda(listaPuntos);
-                    System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
-                    System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
-                    System.out.println("distancia: "+solucion.get(0).getDistanciaX(solucion.get(1)));
-                    solucion=alg.DYV(listaPuntos);
-                    System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
-                    System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
-                    System.out.println("distancia: "+solucion.get(0).getDistanciaX(solucion.get(1)));
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                default:
-                    break;
+        } catch (HeadlessException e) {
 
-            }
         }
-
-
     }//GEN-LAST:event_iniciarBtnActionPerformed
-
-    private void displayBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayBtnActionPerformed
-        // TODO add your handling code here:
-        if (listaPuntos.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No hay datos....");
-        } else {
-            int maxX = graphContent.getWidth();
-            int maxY = graphContent.getHeight();
-            Graphics g = graphContent.getGraphics();
-            displayBtn.setVisible(false);
-            dibujaGraph();
-        }
-    }//GEN-LAST:event_displayBtnActionPerformed
 
     private void calcularComparaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcularComparaBtnActionPerformed
         // TODO add your handling code here:
         generaPuntos(1000);
         listaPuntos.clear();
     }//GEN-LAST:event_calcularComparaBtnActionPerformed
+
+    private void mostrarGraphBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarGraphBtnActionPerformed
+        // TODO add your handling code here:
+        if (listaPuntos.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay datos....");
+        } else {
+
+            Graphics g = graphContent.getGraphics();
+            
+            mostrarGraphBtn.setVisible(false);
+            dibujaGraph();
+        }
+    }//GEN-LAST:event_mostrarGraphBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -398,7 +399,6 @@ public class Menu_Practica extends javax.swing.JFrame {
     private javax.swing.JButton calcularComparaBtn;
     private javax.swing.JPanel compararContent;
     private javax.swing.JPanel comprobarContent;
-    private javax.swing.JButton displayBtn;
     private javax.swing.JPanel graphContent;
     private javax.swing.JPanel homeContent;
     private javax.swing.JButton iniciarBtn;
@@ -411,6 +411,7 @@ public class Menu_Practica extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton mostrarGraphBtn;
     private javax.swing.JComboBox<String> opcionDatosCB;
     private javax.swing.JPanel paramContent;
     private javax.swing.JTable tablaCompara;
@@ -434,26 +435,32 @@ public class Menu_Practica extends javax.swing.JFrame {
 
         Double x, y;
         Punto p;
-//        int maxX = graphContent.getWidth();
-//        int maxY = graphContent.getHeight();
 
+    
         for (int i = 0; i < cantidad; i++) {
-            // int myValue = r.nextInt(max-offset)+offset;
-            x = r.nextDouble();
-            y = r.nextDouble();
+           //   rangeMin + (rangeMax - rangeMin) * r.nextDouble()
+            x = 10 +  (989.9999999) *  r.nextDouble();
+            y = 10 +  (989.9999999) *r.nextDouble();
+           
             p = new Punto(x, y, i);
             listaPuntos.add(p);
         }
+         p = new Punto(0.00, 0.00, 10);
+            listaPuntos.add(p);
     }
 
     private void dibujaGraph() {
         int size = listaPuntos.size();
+//        int xMax = getXMaxLista();
+//        int yMax = getYMaxLista();
         Graphics g = graphContent.getGraphics();
+        
+//        graphContent.setSize(xMax,yMax);
         graphContent.setVisible(true);
         for (int i = 0; i < size; i++) {
             listaPuntos.get(i).dibujaPunto(g);
         }
-        System.out.println("listo");
+        //setExtendedState(JFrame.MAXIMIZED_BOTH); 
     }
 
     private void cargarPuntos(FileReader s) {
@@ -507,5 +514,24 @@ public class Menu_Practica extends javax.swing.JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(paramContent, e);
         }
+    }
+
+    private int getXMaxLista() {
+        int valor = 0;
+        for (Punto listaPunto : listaPuntos) {
+            if (listaPunto.getX()>valor) {
+                valor =listaPunto.getX().intValue();
+            }
+        }
+        return valor;
+    }
+    private int getYMaxLista(){
+         int valor = 0;
+        for (Punto listaPunto : listaPuntos) {
+            if (listaPunto.getY()>valor) {
+                valor =listaPunto.getY().intValue();
+            }
+        }
+        return valor;
     }
 }
