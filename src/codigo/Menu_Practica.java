@@ -321,6 +321,10 @@ public class Menu_Practica extends javax.swing.JFrame {
                         System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
                         System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
                         System.out.println("distancia: " + solucion.get(0).getDistanciaX(solucion.get(1)));
+                        solucion = alg.DYVMejorado(listaPuntos);
+                        System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
+                        System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
+                        System.out.println("distancia: " + solucion.get(0).getDistanciaX(solucion.get(1)));
                         break;
                     case 2:
                         break;
@@ -451,16 +455,11 @@ public class Menu_Practica extends javax.swing.JFrame {
 
     private void dibujaGraph() {
         int size = listaPuntos.size();
-//        int xMax = getXMaxLista();
-//        int yMax = getYMaxLista();
         Graphics g = graphContent.getGraphics();
-        
-//        graphContent.setSize(xMax,yMax);
         graphContent.setVisible(true);
         for (int i = 0; i < size; i++) {
             listaPuntos.get(i).dibujaPunto(g);
         }
-        //setExtendedState(JFrame.MAXIMIZED_BOTH); 
     }
 
     private void cargarPuntos(FileReader s) {
