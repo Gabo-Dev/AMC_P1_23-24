@@ -5,30 +5,59 @@
  */
 package codigo;
 
-import java.awt.Graphics;
 import java.awt.HeadlessException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Objects;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author jhony
  */
+// Creamos clase donde almacenar datos del fichero analizado
+class Fichero {
+
+    public String nombre;
+    public int dimension;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(int dimension) {
+        this.dimension = dimension;
+    }
+
+}
+
 public class Menu_Practica extends javax.swing.JFrame {
 
     private ArrayList<Punto> listaPuntos;
     private int valorMaximoX, valorMaximoY;
+    private Fichero ficheroActual;
+    private boolean mismaX;
+    private MostrarDatos tmp;
 
     /**
      * Creates new form Menu_Practica
@@ -38,7 +67,10 @@ public class Menu_Practica extends javax.swing.JFrame {
         setTitle("Menu Principal");
         this.setLocationRelativeTo(null);
         this.listaPuntos = new ArrayList<>();
-        this.tablaCompara.setVisible(false);
+        ficheroActual = new Fichero();
+        mismaX = false;
+        //setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        tmp = new MostrarDatos();
     }
 
     /**
@@ -50,217 +82,53 @@ public class Menu_Practica extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        homeContent = new javax.swing.JPanel();
-        paramContent = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        algoritmoCB = new javax.swing.JComboBox<>();
-        opcionDatosCB = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        iniciarBtn = new javax.swing.JButton();
-        compararContent = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaCompara = new javax.swing.JTable();
-        insertarTallaBtn = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        calcularComparaBtn = new javax.swing.JButton();
-        comprobarContent = new javax.swing.JPanel();
-        graphContent = new javax.swing.JPanel();
-        mostrarGraphBtn = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        creaFicheroBtn = new javax.swing.JButton();
+        cargarFicheroBtn = new javax.swing.JButton();
+        comprobarEstrategiasBtn = new javax.swing.JButton();
+        comparaBtn = new javax.swing.JButton();
+        compara2Btn = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jTabbedPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 255, 255)));
-
-        paramContent.setBackground(new java.awt.Color(204, 255, 204));
-
-        jLabel1.setLabelFor(this);
-        jLabel1.setText("Datos:");
-
-        jLabel2.setText("Algoritmo");
-
-        algoritmoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Exhaustivo", "Exhaustivo Poda", "D&V", "D&V Mejora" }));
-
-        opcionDatosCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Cargar Fichero", "Generar Puntos" }));
-
-        jLabel3.setText("CONFIGURACIÓN");
-
-        iniciarBtn.setText("Iniciar");
-        iniciarBtn.addActionListener(new java.awt.event.ActionListener() {
+        creaFicheroBtn.setText("Crear Fichero TSP aleatorio");
+        creaFicheroBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                iniciarBtnActionPerformed(evt);
+                creaFicheroBtnActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout paramContentLayout = new javax.swing.GroupLayout(paramContent);
-        paramContent.setLayout(paramContentLayout);
-        paramContentLayout.setHorizontalGroup(
-            paramContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(paramContentLayout.createSequentialGroup()
-                .addGroup(paramContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(paramContentLayout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addGroup(paramContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(paramContentLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(132, 132, 132)
-                                .addComponent(algoritmoCB, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(paramContentLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(149, 149, 149)
-                                .addComponent(opcionDatosCB, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(paramContentLayout.createSequentialGroup()
-                        .addGap(174, 174, 174)
-                        .addComponent(jLabel3))
-                    .addGroup(paramContentLayout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(iniciarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(58, Short.MAX_VALUE))
-        );
-        paramContentLayout.setVerticalGroup(
-            paramContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(paramContentLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addGap(24, 24, 24)
-                .addGroup(paramContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(opcionDatosCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(paramContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(algoritmoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(iniciarBtn)
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout homeContentLayout = new javax.swing.GroupLayout(homeContent);
-        homeContent.setLayout(homeContentLayout);
-        homeContentLayout.setHorizontalGroup(
-            homeContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(homeContentLayout.createSequentialGroup()
-                .addGap(447, 447, 447)
-                .addComponent(paramContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(604, Short.MAX_VALUE))
-        );
-        homeContentLayout.setVerticalGroup(
-            homeContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(homeContentLayout.createSequentialGroup()
-                .addGap(185, 185, 185)
-                .addComponent(paramContent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(342, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("HOME", homeContent);
-
-        tablaCompara.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"1000", null, null, null, null},
-                {"2000", null, null, null, null},
-                {"3000", null, null, null, null},
-                {"4000", null, null, null, null},
-                {"5000", null, null, null, null}
-            },
-            new String [] {
-                "Talla", "Exhaustivo (mseg)", "Ex. Poda (mseg)", "D&V (mseg)", "D&V Mejora (mseg)"
-            }
-        ));
-        jScrollPane1.setViewportView(tablaCompara);
-
-        insertarTallaBtn.setText("Insertar");
-
-        jLabel4.setText("Insertar talla adicional: ");
-
-        calcularComparaBtn.setText("Calcular");
-        calcularComparaBtn.addActionListener(new java.awt.event.ActionListener() {
+        cargarFicheroBtn.setText("Cargar Fichero TSP");
+        cargarFicheroBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                calcularComparaBtnActionPerformed(evt);
+                cargarFicheroBtnActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout compararContentLayout = new javax.swing.GroupLayout(compararContent);
-        compararContent.setLayout(compararContentLayout);
-        compararContentLayout.setHorizontalGroup(
-            compararContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(compararContentLayout.createSequentialGroup()
-                .addGroup(compararContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(compararContentLayout.createSequentialGroup()
-                        .addGap(441, 441, 441)
-                        .addComponent(jLabel4)
-                        .addGap(81, 81, 81)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(insertarTallaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(calcularComparaBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(compararContentLayout.createSequentialGroup()
-                        .addGap(379, 379, 379)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(480, Short.MAX_VALUE))
-        );
-        compararContentLayout.setVerticalGroup(
-            compararContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(compararContentLayout.createSequentialGroup()
-                .addGap(202, 202, 202)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addGroup(compararContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(insertarTallaBtn)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(calcularComparaBtn))
-                .addContainerGap(343, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("COMPARAR", compararContent);
-
-        javax.swing.GroupLayout comprobarContentLayout = new javax.swing.GroupLayout(comprobarContent);
-        comprobarContent.setLayout(comprobarContentLayout);
-        comprobarContentLayout.setHorizontalGroup(
-            comprobarContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1479, Short.MAX_VALUE)
-        );
-        comprobarContentLayout.setVerticalGroup(
-            comprobarContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 707, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("COMPROBAR", comprobarContent);
-
-        graphContent.setBackground(new java.awt.Color(255, 255, 255));
-        graphContent.setPreferredSize(new java.awt.Dimension(1450, 700));
-
-        mostrarGraphBtn.setText("Mostar");
-        mostrarGraphBtn.addActionListener(new java.awt.event.ActionListener() {
+        comprobarEstrategiasBtn.setText("Comprobar Estrategias");
+        comprobarEstrategiasBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mostrarGraphBtnActionPerformed(evt);
+                comprobarEstrategiasBtnActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout graphContentLayout = new javax.swing.GroupLayout(graphContent);
-        graphContent.setLayout(graphContentLayout);
-        graphContentLayout.setHorizontalGroup(
-            graphContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(graphContentLayout.createSequentialGroup()
-                .addGap(648, 648, 648)
-                .addComponent(mostrarGraphBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(758, Short.MAX_VALUE))
-        );
-        graphContentLayout.setVerticalGroup(
-            graphContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, graphContentLayout.createSequentialGroup()
-                .addContainerGap(422, Short.MAX_VALUE)
-                .addComponent(mostrarGraphBtn)
-                .addGap(262, 262, 262))
-        );
+        comparaBtn.setText("Comparar Estrategias");
+        comparaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comparaBtnActionPerformed(evt);
+            }
+        });
 
-        jTabbedPane1.addTab("GRAPH", graphContent);
-
+        compara2Btn.setText("Comparar 2 Estrategias");
+        compara2Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compara2BtnActionPerformed(evt);
+            }
+        });
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -268,98 +136,161 @@ public class Menu_Practica extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addContainerGap(346, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(compara2Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comparaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comprobarEstrategiasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(creaFicheroBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cargarFicheroBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(324, 324, 324))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addGap(30, 30, 30)
+                .addComponent(creaFicheroBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cargarFicheroBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(comprobarEstrategiasBtn)
+                .addGap(18, 18, 18)
+                .addComponent(comparaBtn)
+                .addGap(18, 18, 18)
+                .addComponent(compara2Btn)
+                .addContainerGap(87, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void iniciarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarBtnActionPerformed
-        ArrayList<Punto> solucion = null;
-        int numPuntos;
-        try {
-            if (opcionDatosCB.getSelectedIndex() == 0 || algoritmoCB.getSelectedIndex() == 0) {
-                JOptionPane.showMessageDialog(null, "Rellene todos los campos.");
-            } else {
-
-                if (opcionDatosCB.getSelectedIndex() == 2) {
-                    try {
-                        numPuntos = Integer.parseInt(JOptionPane.showInputDialog(null, "¿Cuántos puntos desea generar?"));
-                        generaPuntos(numPuntos);
-                    } catch (HeadlessException | NumberFormatException e) {
-                        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-                    }
-                }
-                if (opcionDatosCB.getSelectedIndex() == 1) {
-                    try {
-                        abrirFichero();
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(Menu_Practica.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                Algoritmos alg = new Algoritmos();
-                switch (algoritmoCB.getSelectedIndex()) {
-
-                    case 1:
-                        solucion = alg.Exhaustivo(listaPuntos);
-                        System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
-                        System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
-                        System.out.println(String.format("distancia: %.20f", solucion.get(0).getDistanciaX(solucion.get(1))));
-                        solucion = alg.ExhaustivoPoda(listaPuntos);
-                        System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
-                        System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
-                        System.out.println("distancia: " + solucion.get(0).getDistanciaX(solucion.get(1)));
-                        solucion = alg.DYV(listaPuntos);
-                        System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
-                        System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
-                        System.out.println("distancia: " + solucion.get(0).getDistanciaX(solucion.get(1)));
-                        solucion = alg.DYVMejorado(listaPuntos);
-                        System.out.println("p1:" + solucion.get(0).getX() + " - " + solucion.get(0).getY());
-                        System.out.println("p2:" + solucion.get(1).getX() + " - " + solucion.get(1).getY());
-                        System.out.println("distancia: " + solucion.get(0).getDistanciaX(solucion.get(1)));
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-        } catch (HeadlessException e) {
-
-        }
-    }//GEN-LAST:event_iniciarBtnActionPerformed
-
-    private void calcularComparaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcularComparaBtnActionPerformed
+    private void creaFicheroBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creaFicheroBtnActionPerformed
         // TODO add your handling code here:
-        generaPuntos(1000);
-        listaPuntos.clear();
-    }//GEN-LAST:event_calcularComparaBtnActionPerformed
+        try {
+            int num = Integer.parseInt(JOptionPane.showInputDialog(null, "Tamaño del fichero:"));
+            Punto aux = new Punto();
+            if (num > 0) {
+                ArrayList<Punto> Puntos = aux.generaPuntos(num, mismaX);
+                creaFichero(num, Puntos);
+            }
+        } catch (HeadlessException | NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error no se puede crear el fichero");
+        }
+    }//GEN-LAST:event_creaFicheroBtnActionPerformed
 
-    private void mostrarGraphBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarGraphBtnActionPerformed
+    private void cargarFicheroBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarFicheroBtnActionPerformed
+        // TODO add your handling code here:
+        try {
+            JFileChooser filChoose = new JFileChooser(System.getProperty("user.dir"));//Cogemos directorios desde /home
+            filChoose.setFileSelectionMode(JFileChooser.FILES_ONLY);//Solo acepta ficheros
+            filChoose.setFileFilter(new FileNameExtensionFilter("txt", "txt"));//Coje ficheros cuya extension sea esas
+            JFrame f = new JFrame();//Necesario, para poder hacer dispose()
+            if (filChoose.showOpenDialog(f) == JFileChooser.APPROVE_OPTION) {
+                File file = filChoose.getSelectedFile();//Cogemos el fichero seleccionado
+                FileReader s = new FileReader(file);
+                cargarPuntos(s);
+            }
+        } catch (HeadlessException | FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "No se pudede cargar el fichero");
+        }
+    }//GEN-LAST:event_cargarFicheroBtnActionPerformed
+
+    private void comprobarEstrategiasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comprobarEstrategiasBtnActionPerformed
         // TODO add your handling code here:
         if (listaPuntos.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No hay datos....");
+            JOptionPane.showMessageDialog(null, "Debe cargar un fichero TSP primero.");
         } else {
-
-            Graphics g = graphContent.getGraphics();
-            
-            mostrarGraphBtn.setVisible(false);
-            dibujaGraph();
+            // Creamos una instancia para mostrar la comprobacion
+            tmp = new MostrarDatos();
+            tmp.setDatos(listaPuntos);
+            tmp.setFichero(ficheroActual);
+            tmp.setVisible(true);
+            tmp.comprobarEstrategias();
+            tmp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         }
-    }//GEN-LAST:event_mostrarGraphBtnActionPerformed
+    }//GEN-LAST:event_comprobarEstrategiasBtnActionPerformed
+
+    private void comparaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comparaBtnActionPerformed
+        // TODO add your handling code here:
+        tmp = new MostrarDatos();
+        tmp.comparaEstrategias(mismaX);
+        tmp.setVisible(true);
+        tmp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_comparaBtnActionPerformed
+
+    private void compara2BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compara2BtnActionPerformed
+        // TODO add your handling code here:
+        // Crear un JComboBox con opciones
+        // por defecto 
+        String opc1, opc2;
+        String[] options = {"Exhaustivo", "Exhaustivo Poda", "DyV", "DyV Mejorado"};
+        JComboBox<String> comboBox = new JComboBox<>(options);
+
+        // Crear un JPanel para contener el JComboBox
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Seleccione una opción:"));
+        panel.add(comboBox);
+
+        // Mostrar el diálogo
+        int alg1 = JOptionPane.showOptionDialog(
+                null,
+                panel,
+                "Comparar 2 Estrategias",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                null,
+                null);
+
+        // Verificar la opción seleccionada
+        if (alg1 == JOptionPane.OK_OPTION) {
+            // Obtener la opción seleccionada del JComboBox
+            opc1 = comboBox.getSelectedItem().toString();
+            //  Eliminamos primera opción elegida
+            String[] aux = new String[options.length - 1];
+            int j = 0;
+            for (int i = 0; i < options.length; i++) {
+                if (i != comboBox.getSelectedIndex()) {
+                    aux[j] = options[i];
+                    j++;
+                }
+            }
+            comboBox = new JComboBox<>(aux);
+            panel = new JPanel();
+            panel.add(new JLabel("Seleccione una opción:"));
+            panel.add(comboBox);
+            // Mostrar el diálogo
+            int alg2 = JOptionPane.showOptionDialog(
+                    null,
+                    panel,
+                    "Comparar 2 Estrategias",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    null,
+                    null);
+
+            // Verificar la opción seleccionada
+            if (alg2 == JOptionPane.OK_OPTION) {
+                // Obtener la opción seleccionada del JComboBox
+                opc2 = comboBox.getSelectedItem().toString();
+                // Representamos las opciones elegidas
+                tmp = new MostrarDatos();
+                tmp.compara2(opc1, opc2,mismaX);
+                tmp.setVisible(true);
+                tmp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            } else {
+                // El usuario cerró el diálogo sin seleccionar ninguna opción
+                JOptionPane.showMessageDialog(null, "No seleccionaste ninguna opción.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+
+        } else {
+            // El usuario cerró el diálogo sin seleccionar ninguna opción
+            JOptionPane.showMessageDialog(null, "No seleccionaste ninguna opción.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_compara2BtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -375,162 +306,109 @@ public class Menu_Practica extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Menu_Practica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Practica.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Menu_Practica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Practica.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Menu_Practica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Practica.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Menu_Practica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Practica.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-
                 new Menu_Practica().setVisible(true);
-
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> algoritmoCB;
-    private javax.swing.JButton calcularComparaBtn;
-    private javax.swing.JPanel compararContent;
-    private javax.swing.JPanel comprobarContent;
-    private javax.swing.JPanel graphContent;
-    private javax.swing.JPanel homeContent;
-    private javax.swing.JButton iniciarBtn;
-    private javax.swing.JButton insertarTallaBtn;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JButton cargarFicheroBtn;
+    private javax.swing.JButton compara2Btn;
+    private javax.swing.JButton comparaBtn;
+    private javax.swing.JButton comprobarEstrategiasBtn;
+    private javax.swing.JButton creaFicheroBtn;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton mostrarGraphBtn;
-    private javax.swing.JComboBox<String> opcionDatosCB;
-    private javax.swing.JPanel paramContent;
-    private javax.swing.JTable tablaCompara;
     // End of variables declaration//GEN-END:variables
-
-    private void abrirFichero() throws FileNotFoundException {
-        JFileChooser filChoose = new JFileChooser(System.getProperty("user.dir"));//Cogemos directorios desde /home
-        filChoose.setFileSelectionMode(JFileChooser.FILES_ONLY);//Solo acepta ficheros
-        filChoose.setFileFilter(new FileNameExtensionFilter("txt", "txt"));//Coje ficheros cuya extension sea esas
-        JFrame f = new JFrame();//Necesario, para poder hacer dispose()
-        if (filChoose.showOpenDialog(f) == JFileChooser.APPROVE_OPTION) {
-            File file = filChoose.getSelectedFile();//Cogemos el fichero seleccionado
-            FileReader s = new FileReader(file);
-            cargarPuntos(s);
-        }
-
-    }
-
-    private void generaPuntos(int cantidad) {
-        Random r = new Random();
-
-        Double x, y;
-        Punto p;
-
-    
-        for (int i = 0; i < cantidad; i++) {
-           //   rangeMin + (rangeMax - rangeMin) * r.nextDouble()
-            x = 10 +  (989.9999999) *  r.nextDouble();
-            y = 10 +  (989.9999999) *r.nextDouble();
-           
-            p = new Punto(x, y, i);
-            listaPuntos.add(p);
-        }
-         p = new Punto(0.00, 0.00, 10);
-            listaPuntos.add(p);
-    }
-
-    private void dibujaGraph() {
-        int size = listaPuntos.size();
-        Graphics g = graphContent.getGraphics();
-        graphContent.setVisible(true);
-        for (int i = 0; i < size; i++) {
-            listaPuntos.get(i).dibujaPunto(g);
-        }
-    }
 
     private void cargarPuntos(FileReader s) {
         int i = 0;
         BufferedReader entradaDatos;
-        double ancho = 0, alto = 0;
 
         try {
             entradaDatos = new BufferedReader(s);
-            String Linea;
+            String Linea = entradaDatos.readLine();
             boolean CordSection = false;
-            while ((Linea = entradaDatos.readLine()) != null) {
-                if (!Linea.equals("EOF") && !Linea.equals("")) {
-                    if (CordSection) {
-                        int a = -1, b = -1, c = -1, o = 0;
-                        String[] parts = Linea.split(" ");
-                        while (o < parts.length) {
-                            if (!parts[o].isEmpty()) {
-                                //  setID
-                                if (a == -1) {
-                                    a = o;
-                                } // set X
-                                else if (b == -1) {
-                                    b = o;
-                                } //  set Y
-                                else if (c == -1) {
-                                    c = o;
-                                }
+            while (!(Linea.equals("EOF"))) {
+
+                if (CordSection) {
+                    int a = -1, b = -1, c = -1, o = 0;
+                    String[] parts = Linea.split(" ");
+                    while (o < parts.length) {
+                        if (!parts[o].isEmpty()) {
+                            //  setID
+                            if (a == -1) {
+                                a = o;
+                            } // set X
+                            else if (b == -1) {
+                                b = o;
+                            } //  set Y
+                            else if (c == -1) {
+                                c = o;
                             }
-                            o++;
                         }
-
-                        if (ancho < Double.parseDouble(parts[b].trim())) {
-                            ancho = (int) Double.parseDouble(parts[b].trim());
-                        }
-
-                        if (alto < Double.parseDouble(parts[c].trim())) {
-                            alto = (int) Double.parseDouble(parts[c].trim());
-                        }
-                        listaPuntos.add(new Punto(Double.parseDouble(parts[b].trim()), Double.parseDouble(parts[c].trim()), Integer.parseInt(parts[a].trim())));
-                    } else {
-                        if (Linea.equals("NODE_COORD_SECTION")) {
-                            CordSection = true;
-                        } else if (Linea.contains("DIMENSION")) {
-                            String[] parts = Linea.split(" ");
-                        }
+                        o++;
                     }
+
+                    listaPuntos.add(new Punto(Double.parseDouble(parts[b].trim()), Double.parseDouble(parts[c].trim()), Integer.parseInt(parts[a].trim())));
                 }
+                if (Linea.equals("NODE_COORD_SECTION")) {
+                    CordSection = true;
+                }
+                if (Linea.contains("DIMENSION:")) {
+                    String[] parts = Linea.split(" ");
+                    ficheroActual.setDimension(Integer.parseInt(parts[1]));
+                }
+                if (Linea.contains("NAME:")) {
+                    String[] parts = Linea.split(" ");
+                    ficheroActual.setNombre(parts[1]);
+                }
+                Linea = entradaDatos.readLine();
+
             }
             entradaDatos.close();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(paramContent, e);
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
-    private int getXMaxLista() {
-        int valor = 0;
-        for (Punto listaPunto : listaPuntos) {
-            if (listaPunto.getX()>valor) {
-                valor =listaPunto.getX().intValue();
+    private void creaFichero(int num, ArrayList<Punto> puntos) {
+        String filePath = "src/Data/dataset" + num + ".tsp";
+        try ( BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("NAME: dataset" + num + "\n");
+            writer.write(("TYPE: TSP\n"));
+            writer.write("COMMENT: " + num + " random locations\n");
+            writer.write("DIMENSION: " + num + "\n");
+            writer.write("EDGE_WEIGHT_TYPE: EUC_2D\n");
+            writer.write("NODE_COORD_SECTION\n");
+            for (int i = 0; i < puntos.size(); i++) {
+                writer.write((i + 1) + " " + puntos.get(i).getX() + " " + puntos.get(i).getY() + "\n");
             }
+            writer.write("EOF");
+        } catch (Exception e) {
         }
-        return valor;
-    }
-    private int getYMaxLista(){
-         int valor = 0;
-        for (Punto listaPunto : listaPuntos) {
-            if (listaPunto.getY()>valor) {
-                valor =listaPunto.getY().intValue();
-            }
-        }
-        return valor;
     }
 }
